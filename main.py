@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from tkinter import messagebox as message
 from math import sqrt
 
 
@@ -130,14 +131,28 @@ def get_result():
             case "%":  RESULT = FIRST % SECOND
             case "^n": RESULT = FIRST ** SECOND
     except ZeroDivisionError:
-        clean_entry()
-        ENTRY.insert(0, "Can't divide by zero!!!   ")
+        show_error("Warning!", "Can't divide by zero!!!")
     else:
         ENTRY.insert(0, str(RESULT))
 
 
 def clean_entry():
     ENTRY.delete(0, tk.END)
+
+
+def show_error(title: str, error: str):
+    clean_entry()
+    message.showerror("Warning!", "Your items must be either digit or specials symbol for calculating!")
+    ENTRY.insert(0, "0")
+
+
+def press_key(event):
+    if event.char.isdigit() or event.char == ".":
+        add_digit(event.char)
+    elif event.char == "\r":
+        get_result()
+    else:
+        show_error("Warning!", "Your items must be either digit or specials symbol for calculating!")
 
 
 FIRST: int | float = 1
@@ -147,6 +162,7 @@ ACTION: str = ""
 
 window = make_window()
 set_column_and_row_grid_configure(window)
+window.bind("<Key>", press_key)
 
 ENTRY = make_entry()
 ENTRY.insert(0, "0")
