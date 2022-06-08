@@ -14,7 +14,7 @@ def make_window():
 
 
 def make_entry():
-    return tk.Entry(font=("Arial", 47, "normal"), justify="right")
+    return tk.Entry(font=("Arial", 47, "normal"), justify="right", bd=0.5)
 
 
 def digit_button(digit):
@@ -75,6 +75,8 @@ def get_action(action: str):
     global ACTION
     ACTION = action
     get_first_number()
+    TIME_ENTRY.delete(0, tk.END)
+    TIME_ENTRY.insert(0, f"{FIRST}{ACTION}")
 
 
 def action_sqrt():
@@ -134,6 +136,7 @@ def get_result():
         show_error("Warning!", "Can't divide by zero!!!")
     else:
         ENTRY.insert(0, str(RESULT))
+        TIME_ENTRY.delete(0, tk.END)
 
 
 def clean_entry():
@@ -142,7 +145,7 @@ def clean_entry():
 
 def show_error(title: str, error: str):
     clean_entry()
-    message.showerror("Warning!", "Your items must be either digit or specials symbol for calculating!")
+    message.showerror(title, error)
     ENTRY.insert(0, "0")
 
 
@@ -164,9 +167,13 @@ window = make_window()
 set_column_and_row_grid_configure(window)
 window.bind("<Key>", press_key)
 
+TIME_ENTRY = make_entry()
+TIME_ENTRY.grid(row=0, column=0, rowspan=1, columnspan=5, sticky="wens")
+TIME_ENTRY.configure(foreground="grey")
+
 ENTRY = make_entry()
 ENTRY.insert(0, "0")
-ENTRY.grid(row=0, column=0, rowspan=2, columnspan=5, sticky="wens")
+ENTRY.grid(row=1, column=0, rowspan=1, columnspan=5, sticky="wens")
 
 # Buttons with numbers - start
 digit_button("0").grid(row=6, column=0, columnspan=2, sticky="wens")
