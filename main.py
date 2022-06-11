@@ -7,7 +7,7 @@ from math import sqrt
 def make_window():
     root = tk.Tk()
     root.title("Calculator")
-    root.geometry("700x700+700+50")
+    root.geometry("700x630+700+50")
     root.resizable(False, False)
 
     return root
@@ -37,10 +37,10 @@ def special_button(text: str, function):
 
 def set_column_and_row_grid_configure(root: tk.Tk):
     for i in range(5):
-        root.grid_columnconfigure(i, minsize=100)
+        root.grid_columnconfigure(i, minsize=50)
 
     for i in range(7):
-        root.grid_rowconfigure(i, minsize=100)
+        root.grid_rowconfigure(i, minsize=50)
 
 
 def get_first_number():
